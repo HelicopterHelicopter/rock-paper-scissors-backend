@@ -4,7 +4,7 @@ import {createServer} from 'node:http';
 import {Server} from 'socket.io';
 import cors from 'cors';
 
-const rooms = {};
+const rooms = [];
 
 const app = express();
 app.use(cors());
@@ -24,9 +24,10 @@ io.on('connection',(socket)=> {
     socket.on('createGame',()=>{
         const roomId = randomUUID();
         console.log(`Room created with ID: ${roomId}`);
-        rooms[roomId] = {};
-        socket.join(roomId);
-        socket.emit("newGame",{roomId:roomId});
+        const room = {roomId:roomId};
+        rooms.push(room);
+        //socket.join(roomId);
+        io.emit("createGame",room);
     })
 });
 
