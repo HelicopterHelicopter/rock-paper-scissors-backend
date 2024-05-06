@@ -29,7 +29,7 @@ io.on('connection',(socket)=> {
         const room = {roomId:roomId,player1:{id:playerId,choice:null},player2:{id:null,choice:null}};
         rooms.push(room);
         socket.join(roomId);
-        io.emit("createGame",room);
+        io.to(roomId).emit("createGame",room);
     });
 
     socket.on("joinGame",(roomId,playerId)=>{
